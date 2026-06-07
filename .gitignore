@@ -1,0 +1,19 @@
+__pycache__/
+*.pyc
+.env
+*.egg-info/
+.venv/
+.uv/
+uv.lock
+
+# Structured log output (mounted volume)
+logs/
+sample_app/logs/
+
+# Docker volumes
+pgdata/
+
+faults/last_incident.json
+
+# Local beginner guide (not for git)
+PROJECT_FLOW.local.md
