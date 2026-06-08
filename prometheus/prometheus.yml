@@ -1,0 +1,10 @@
+global:
+  scrape_interval: 5s
+
+scrape_configs:
+  - job_name: sample_app
+    scrape_interval: 5s
+    static_configs:
+      - targets:
+          - sample_app:8000
+    metrics_path: /metrics
