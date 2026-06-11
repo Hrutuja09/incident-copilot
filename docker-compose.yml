@@ -37,5 +37,14 @@ services:
     depends_on:
       - sample_app
 
+  copilot:
+    build:
+      context: ./copilot
+    ports:
+      - "8001:8001"
+    depends_on:
+      - sample_app
+      - prometheus
+
 volumes:
   pgdata:
