@@ -40,8 +40,12 @@ services:
   copilot:
     build:
       context: ./copilot
+    environment:
+      LOG_FILE_PATH: /logs/sample_app.jsonl
     ports:
       - "8001:8001"
+    volumes:
+      - ./sample_app/logs:/logs
     depends_on:
       - sample_app
       - prometheus
