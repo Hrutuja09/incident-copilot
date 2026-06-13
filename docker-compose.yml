@@ -41,6 +41,7 @@ services:
     build:
       context: ./copilot
     environment:
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
       LOG_FILE_PATH: /logs/sample_app.jsonl
     ports:
       - "8001:8001"

@@ -10,7 +10,8 @@ RUN uv pip install --system --no-cache \
     "uvicorn[standard]>=0.30.0" \
     "structlog>=24.1.0" \
     "pydantic>=2.0.0" \
-    "httpx>=0.27.0"
+    "httpx>=0.27.0" \
+    "anthropic>=0.25.0"
 
 COPY . .
 
