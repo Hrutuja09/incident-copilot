@@ -11,7 +11,9 @@ ERROR_LEVELS = frozenset({"error", "critical"})
 
 def _summarize_metric(series: MetricSeries) -> str:
     if not series.values:
-        return f"{series.name}: no data available"
+        if series.data_available:
+            return f"{series.name}: 0.000 (no errors during window)"
+        return f"{series.name}: no data available (instrumentation gap)"
 
     minimum = min(series.values)
     maximum = max(series.values)

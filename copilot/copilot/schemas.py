@@ -35,6 +35,7 @@ class MetricSeries(BaseModel):
     name: str
     timestamps: list[datetime]
     values: list[float]
+    data_available: bool = True
 
 
 class RawSignals(BaseModel):

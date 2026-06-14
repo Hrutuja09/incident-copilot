@@ -20,7 +20,12 @@ class PrometheusClient:
         end: datetime,
         step: str = "15s",
     ) -> MetricSeries:
-        empty = MetricSeries(name=query, timestamps=[], values=[])
+        unavailable = MetricSeries(
+            name=query, timestamps=[], values=[], data_available=False
+        )
+        empty_success = MetricSeries(
+            name=query, timestamps=[], values=[], data_available=True
+        )
 
         try:
             with httpx.Client(timeout=self._timeout) as client:
@@ -41,7 +46,7 @@ class PrometheusClient:
                 query=query,
                 error=str(exc),
             )
-            return empty
+            return unavailable
 
         if body.get("status") != "success":
             logger.warning(
@@ -49,18 +54,16 @@ class PrometheusClient:
                 query=query,
                 error=body.get("error", "unknown error"),
             )
-            return empty
+            return unavailable
 
         try:
             result = body["data"]["result"]
             if not result:
-                logger.warning("prometheus query_range empty result", query=query)
-                return empty
+                return empty_success
 
             values = result[0]["values"]
             if not values:
-                logger.warning("prometheus query_range empty values", query=query)
-                return empty
+                return empty_success
 
             timestamps = [
                 datetime.fromtimestamp(float(pair[0]), tz=UTC) for pair in values
@@ -72,6 +75,11 @@ class PrometheusClient:
                 query=query,
                 error=str(exc),
             )
-            return empty
+            return unavailable
 
-        return MetricSeries(name=query, timestamps=timestamps, values=parsed_values)
+        return MetricSeries(
+            name=query,
+            timestamps=timestamps,
+            values=parsed_values,
+            data_available=True,
+        )

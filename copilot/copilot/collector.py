@@ -14,7 +14,7 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 DEFAULT_LOG_FILE_PATH = "../logs/sample_app.jsonl"
 
 METRIC_QUERIES: list[tuple[str, str]] = [
-    ("error_rate", 'rate(http_requests_total{status_code=~"5.."}[1m])'),
+    ("error_rate", 'rate(http_requests_total{status_code=~"4..|5.."}[1m])'),
     (
         "p95_latency",
         "histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[1m]))",
@@ -141,6 +141,7 @@ def _fetch_metrics(window: Window, client: PrometheusClient) -> list[MetricSerie
                 name=name,
                 timestamps=result.timestamps,
                 values=result.values,
+                data_available=result.data_available,
             )
         )
 
