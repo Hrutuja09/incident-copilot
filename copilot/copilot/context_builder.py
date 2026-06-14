@@ -11,8 +11,10 @@ ERROR_LEVELS = frozenset({"error", "critical"})
 
 def _summarize_metric(series: MetricSeries) -> str:
     if not series.values:
-        if series.data_available:
+        if series.name == "error_rate" and series.data_available:
             return f"{series.name}: 0.000 (no errors during window)"
+        if series.data_available:
+            return f"{series.name}: no data available"
         return f"{series.name}: no data available (instrumentation gap)"
 
     minimum = min(series.values)
@@ -22,7 +24,7 @@ def _summarize_metric(series: MetricSeries) -> str:
 
     if series.name == "db_healthy" and any(value == 0.0 for value in series.values):
         summary += "\nWARNING: db_healthy dropped to 0 during window"
-    elif any(value == 0.0 for value in series.values):
+    elif series.name != "db_healthy" and any(value == 0.0 for value in series.values):
         summary += f"\nNOTE: {series.name} hit 0 during window"
 
     return summary

@@ -90,7 +90,7 @@ async def health() -> dict[str, str]:
     return {"status": "ok"}
 
 
-@app.get("/order/{order_id}")
+@app.get("/order/{order_id}", response_model=None)
 async def get_order(order_id: int) -> dict[str, Any] | JSONResponse:
     start = time.perf_counter()
     endpoint = f"/order/{order_id}"
