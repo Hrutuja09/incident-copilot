@@ -6,6 +6,7 @@ from typing import Any, AsyncGenerator
 
 import structlog
 from fastapi import FastAPI, HTTPException, Request
+from fastapi.responses import JSONResponse
 from prometheus_client import make_asgi_app
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
@@ -90,16 +91,35 @@ async def health() -> dict[str, str]:
 
 
 @app.get("/order/{order_id}")
-async def get_order(order_id: int) -> dict[str, Any]:
-    async with AsyncSessionLocal() as session:
-        result = await session.execute(
-            text(
-                "SELECT id, customer_name, status, amount "
-                "FROM orders WHERE id = :id"
-            ),
-            {"id": order_id},
+async def get_order(order_id: int) -> dict[str, Any] | JSONResponse:
+    start = time.perf_counter()
+    endpoint = f"/order/{order_id}"
+
+    try:
+        async with AsyncSessionLocal() as session:
+            result = await session.execute(
+                text(
+                    "SELECT id, customer_name, status, amount "
+                    "FROM orders WHERE id = :id"
+                ),
+                {"id": order_id},
+            )
+            row = result.mappings().fetchone()
+    except Exception as exc:
+        latency_ms = round((time.perf_counter() - start) * 1000, 2)
+        logger.error(
+            "database error",
+            service="sample_app",
+            endpoint=endpoint,
+            method="GET",
+            latency_ms=latency_ms,
+            status_code=500,
+            error=str(exc),
         )
-        row = result.mappings().fetchone()
+        return JSONResponse(
+            status_code=500,
+            content={"detail": "database error"},
+        )
 
     if row is None:
         raise HTTPException(status_code=404, detail=f"Order {order_id} not found")
