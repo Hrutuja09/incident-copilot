@@ -3,11 +3,12 @@ import json
 import structlog
 
 from copilot.llm import call_llm
-from copilot.schemas import RCAReport
+from copilot.schemas import RCAReport, RootCauseCategory
 
 logger = structlog.get_logger()
 
 _PARSE_ERROR_REPORT = RCAReport(
+    root_cause_category=RootCauseCategory.INSUFFICIENT_SIGNAL,
     cause="parse error — llm response was not valid json",
     confidence=0.0,
     evidence=[],
