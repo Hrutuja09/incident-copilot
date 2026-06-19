@@ -1,4 +1,4 @@
-.PHONY: up down logs seed traffic investigate incident-db
+.PHONY: up down logs seed traffic investigate incident-db demo
 
 up:
 	docker-compose up --build -d
@@ -22,3 +22,6 @@ investigate:
 
 incident-db:
 	python faults/db_down.py
+
+demo:
+	bash scripts/demo.sh

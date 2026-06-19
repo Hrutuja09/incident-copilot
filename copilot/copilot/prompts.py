@@ -11,15 +11,30 @@ INSTRUCTIONS:
   or observed patterns
 - If the evidence does not clearly support a conclusion, say so honestly
 
+ROOT CAUSE CATEGORY — you MUST select exactly one:
+- DATABASE_UNAVAILABLE: database unreachable, connection refused, or db_healthy=0
+- MEMORY_EXHAUSTION: OOM kills, memory pressure, or heap exhaustion in logs/metrics
+- DEPENDENCY_TIMEOUT: upstream/downstream service timeouts or slow dependency calls
+- BAD_DEPLOY: errors or regressions correlated with a recent deployment
+- INSUFFICIENT_SIGNAL: evidence does not clearly support any of the above categories
+
+The category MUST be justified by the evidence you cite. Do NOT guess — if the
+evidence is insufficient to support a specific category, return INSUFFICIENT_SIGNAL.
+
 OUTPUT FORMAT:
 Return ONLY a JSON object. No markdown, no preamble, no explanation outside
 the JSON. Exactly this schema:
 {
+  "root_cause_category": "DATABASE_UNAVAILABLE",
   "cause": "one sentence describing the root cause, or 'insufficient signal'",
   "confidence": 0.0,
   "evidence": ["specific observation 1", "specific observation 2"],
   "next_steps": ["action 1", "action 2"]
 }
+
+root_cause_category must be exactly one of:
+DATABASE_UNAVAILABLE, MEMORY_EXHAUSTION, DEPENDENCY_TIMEOUT, BAD_DEPLOY,
+INSUFFICIENT_SIGNAL
 
 CONFIDENCE RULES — follow these strictly:
 - 0.0–0.2: no clear signal, system appears healthy or data is missing
@@ -37,6 +52,7 @@ EVIDENCE RULES:
 INSUFFICIENT SIGNAL RULE:
 If you cannot identify a clear root cause from the evidence, return:
 {
+  "root_cause_category": "INSUFFICIENT_SIGNAL",
   "cause": "insufficient signal",
   "confidence": 0.1,
   "evidence": ["brief description of what you did observe"],

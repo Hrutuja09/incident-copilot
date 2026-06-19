@@ -5,6 +5,7 @@ import structlog
 from anthropic import Anthropic
 
 from copilot.prompts import RCA_PROMPT
+from copilot.schemas import RootCauseCategory
 
 logger = structlog.get_logger()
 
@@ -14,6 +15,7 @@ TEMPERATURE = 0.1
 
 _FALLBACK_RESPONSE = json.dumps(
     {
+        "root_cause_category": RootCauseCategory.INSUFFICIENT_SIGNAL.value,
         "cause": "llm unavailable",
         "confidence": 0.0,
         "evidence": [],

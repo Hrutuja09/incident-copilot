@@ -1,7 +1,16 @@
 from datetime import datetime, timedelta
+from enum import Enum
 from typing import Self
 
 from pydantic import BaseModel, Field, computed_field, model_validator
+
+
+class RootCauseCategory(str, Enum):
+    DATABASE_UNAVAILABLE = "DATABASE_UNAVAILABLE"
+    MEMORY_EXHAUSTION = "MEMORY_EXHAUSTION"
+    DEPENDENCY_TIMEOUT = "DEPENDENCY_TIMEOUT"
+    BAD_DEPLOY = "BAD_DEPLOY"
+    INSUFFICIENT_SIGNAL = "INSUFFICIENT_SIGNAL"
 
 
 class Window(BaseModel):
@@ -45,6 +54,7 @@ class RawSignals(BaseModel):
 
 
 class RCAReport(BaseModel):
+    root_cause_category: RootCauseCategory
     cause: str
     confidence: float = Field(ge=0, le=1)
     evidence: list[str]
