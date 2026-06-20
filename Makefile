@@ -1,4 +1,4 @@
-.PHONY: up down logs seed traffic investigate incident-db demo
+.PHONY: up down logs seed traffic investigate incident-db incident-memory incident-timeout incident-bad-deploy demo capture
 
 up:
 	docker-compose up --build -d
@@ -23,5 +23,17 @@ investigate:
 incident-db:
 	python faults/db_down.py
 
+incident-memory:
+	python faults/memory_exhaustion.py
+
+incident-timeout:
+	python faults/dependency_timeout.py
+
+incident-bad-deploy:
+	python faults/bad_deploy.py
+
 demo:
 	bash scripts/demo.sh
+
+capture:
+	python scripts/capture_scenario.py --all

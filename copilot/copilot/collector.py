@@ -21,6 +21,15 @@ METRIC_QUERIES: list[tuple[str, str]] = [
     ),
     ("request_rate", "rate(http_requests_total[1m])"),
     ("db_healthy", "db_healthy"),
+    ("process_memory_bytes", "process_memory_bytes"),
+    (
+        "downstream_p95_latency",
+        "histogram_quantile(0.95, rate(downstream_request_duration_seconds_bucket[1m]))",
+    ),
+    (
+        "downstream_timeout_rate",
+        "rate(downstream_timeouts_total[1m])",
+    ),
 ]
 
 _LOG_ENTRY_FIELDS = (
