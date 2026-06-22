@@ -1,0 +1,7 @@
+{
+  "fault_type": "dependency_timeout",
+  "start": "2026-06-22T15:05:17.389099+00:00",
+  "end": "2026-06-22T15:06:17.395837+00:00",
+  "duration_seconds": 60,
+  "lookback_seconds": 300
+}

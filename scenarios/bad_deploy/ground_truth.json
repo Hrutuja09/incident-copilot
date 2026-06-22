@@ -1,0 +1,11 @@
+{
+  "expected_category": "BAD_DEPLOY",
+  "note": "A bad deploy fault rolled out version 1.2.3-bad, logged config reload and deploy completion, then immediately caused all order requests to fail with invalid-configuration errors. The sharp error-rate spike correlates with the deploy event — the root cause is a faulty release, not infrastructure unavailability.",
+  "expected_evidence_keywords": [
+    "deploy completed",
+    "config reload",
+    "invalid configuration after deploy",
+    "1.2.3-bad",
+    "application error"
+  ]
+}

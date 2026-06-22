@@ -1,0 +1,7 @@
+{
+  "fault_type": "db_down",
+  "start": "2026-06-22T14:57:40.625499+00:00",
+  "end": "2026-06-22T14:58:45.969329+00:00",
+  "duration_seconds": 60,
+  "lookback_seconds": 300
+}

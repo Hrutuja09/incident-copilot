@@ -1,0 +1,7 @@
+{
+  "fault_type": "bad_deploy",
+  "start": "2026-06-22T15:09:03.062520+00:00",
+  "end": "2026-06-22T15:10:03.070452+00:00",
+  "duration_seconds": 60,
+  "lookback_seconds": 300
+}

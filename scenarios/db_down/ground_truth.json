@@ -1,0 +1,10 @@
+{
+  "expected_category": "DATABASE_UNAVAILABLE",
+  "note": "The Postgres container was stopped for 60 seconds, making the database unreachable. Order lookups failed at the connection layer with database errors, and db_healthy dropped to 0 — the outage is a database availability failure, not an application bug.",
+  "expected_evidence_keywords": [
+    "database error",
+    "db_healthy",
+    "postgres",
+    "connection"
+  ]
+}

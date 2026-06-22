@@ -1,0 +1,11 @@
+{
+  "expected_category": "DEPENDENCY_TIMEOUT",
+  "note": "A dependency timeout fault was activated on the inventory_service downstream call. Requests failed with 504 dependency timeout errors and elevated downstream latency while db_healthy remained at 1 — the application and database were healthy; the root cause is a slow or unresponsive upstream dependency.",
+  "expected_evidence_keywords": [
+    "dependency timeout",
+    "inventory_service",
+    "downstream",
+    "504",
+    "db_healthy"
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "expected_category": "MEMORY_EXHAUSTION",
+  "note": "A memory exhaustion fault was activated, causing process_memory_bytes to climb until an OOM condition was detected and a simulated restart was logged. The root cause is memory pressure exhausting available heap, not external dependency or database failure.",
+  "expected_evidence_keywords": [
+    "oom condition detected",
+    "process_memory_bytes",
+    "memory limit exceeded",
+    "process restarting due to OOM"
+  ]
+}
